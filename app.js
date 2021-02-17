@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const http = require('http').Server(app);
+const cors = require('cors'); // middleware that can be used to enable CORS
 const mongoose = require('mongoose');
 const users = require('./routes/users');
 const auth = require('./routes/auth');
@@ -14,6 +15,7 @@ mongoose.connect('mongodb://localhost/node_rest_api', {
 }).then(() => { console.log('MongoDB Connected') });
 
 // middleware
+app.use(cors());
 app.use(express.json()); // translate JSON to object literal and backward
 // middleware
 app.use('/api/users', users); // if the req is for '/api/users' it will go to the endpoint at './routes/users'
