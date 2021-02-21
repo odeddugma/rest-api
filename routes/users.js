@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
 
     // validate that the email is unique
     let user = await User.findOne({ email: req.body.email });
-    if (user) return res.status(400).send('User already register');
+    if (user) return res.status(400).send('User already registered');
 
     // encrypting the password with bcrypt
     user = new User(req.body);
