@@ -1,8 +1,18 @@
 const express = require('express');
-const _ = require('lodash');
+// const _ = require('lodash');
 const { Card, validateCard, generateRandomNumber } = require('../models/card');
 const auth = require('../middleware/auth.js')
 const router = express.Router();
+
+// bring all the cards of the user
+router.get('/my-cards', auth, async (req, res) => {
+
+    if (!req.user.biz) return res.status(401).send('Access denied!');
+    const cards = await Card.find({ user_id: req.user._id });
+    res.send(cards);
+
+});
+
 
 // delete card
 router.delete('/:id', auth, async (req, res) => {
@@ -12,7 +22,6 @@ router.delete('/:id', auth, async (req, res) => {
 
     res.send(card);
 });
-
 
 // put is for editing the card
 router.put('/:id', auth, async (req, res) => {
